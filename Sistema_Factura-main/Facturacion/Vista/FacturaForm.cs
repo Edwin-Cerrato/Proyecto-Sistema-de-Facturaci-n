@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Datos;
+using Entidades;
+using System;
 using System.Windows.Forms;
 
 namespace Vista
@@ -15,6 +10,33 @@ namespace Vista
         public FacturaForm()
         {
             InitializeComponent();
+        }
+
+        Cliente micliente = null;
+        ClienteDB clienteDB = new ClienteDB();
+
+        private void txtIdentidad_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //al preionar enter se buscara el cliente
+
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                micliente = new Cliente();
+                micliente = clienteDB.DevolverClientePorIdentidad(txtIdentidad.Text);
+                txtNombreCliente.Text = micliente.Nombre;
+
+            }
+            else
+            {
+                //limpiar
+                micliente = null;
+                txtNombreCliente.Clear();
+            }
+        }
+
+        private void btnBuscarCliente_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

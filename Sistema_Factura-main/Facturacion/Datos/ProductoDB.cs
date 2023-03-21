@@ -281,6 +281,7 @@ namespace Datos
                     {
 
                         comando.CommandType = CommandType.Text;
+                        comando.Parameters.Add("@Codigo", MySqlDbType.VarChar, 80).Value = codigo;
                         MySqlDataReader dr = comando.ExecuteReader();
                         if (dr.Read())
                         {

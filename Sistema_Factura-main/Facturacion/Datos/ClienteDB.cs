@@ -215,6 +215,54 @@ namespace Datos
 
 
 
+        public DataTable DevolverClientesPorNombre(string nombre)
+        {
+            DataTable dt = new DataTable();
+
+            try
+            {
+
+                StringBuilder sql = new StringBuilder();
+
+
+                //busca solo los nombres que coincidan
+                sql.Append("SELECT * FROM cliente WHERE Nombre LIKE ('%@Nombre%');");
+
+                using (MySqlConnection _conexion = new MySqlConnection(cadena))
+                {
+                    //abrir conexion
+                    _conexion.Open();
+
+                    using (MySqlCommand comando = new MySqlCommand(sql.ToString(), _conexion))
+                    {
+
+                        comando.CommandType = CommandType.Text;
+                        comando.Parameters.Add("@Nombre", MySqlDbType.VarChar, 50).Value = nombre;
+                        MySqlDataReader dr = comando.ExecuteReader();
+                        dt.Load(dr);
+
+                    }
+                }
+            }
+
+
+            catch (System.Exception ex)
+            {
+            }
+
+            return dt;
+        }
+
+
+
+
+
+
+
+
+
+
+
 
         public Cliente DevolverClientePorIdentidad(string identidad)
         {
@@ -236,6 +284,7 @@ namespace Datos
                     {
 
                         comando.CommandType = CommandType.Text;
+                        comando.Parameters.Add("@Identidad", MySqlDbType.VarChar, 25).Value = identidad;
                         MySqlDataReader dr = comando.ExecuteReader();
                         if (dr.Read())
                         {
